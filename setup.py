@@ -245,7 +245,7 @@ if IS_WINDOWS:
     cmake_python_library = "{}/libs/python{}.lib".format(
         distutils.sysconfig.get_config_var("prefix"),
         distutils.sysconfig.get_config_var("VERSION"))
-    # Fix virtualenv builds 
+    # Fix virtualenv builds
     # TODO: Fix for python < 3.3
     if not os.path.exists(cmake_python_library):
         cmake_python_library = "{}/libs/python{}.lib".format(
@@ -256,7 +256,6 @@ else:
         distutils.sysconfig.get_config_var("LIBDIR"),
         distutils.sysconfig.get_config_var("INSTSONAME"))
 cmake_python_include_dir = distutils.sysconfig.get_python_inc()
-
 
 ################################################################################
 # Version, create_version_file, and package_name
@@ -362,13 +361,11 @@ Missing build dependency: Unable to `import {importname}`.
 Please install it via `conda install {module}` or `pip install {module}`
 '''.strip()
 
-
 def check_pydep(importname, module):
     try:
         importlib.import_module(importname)
     except ImportError:
         raise RuntimeError(missing_pydep.format(importname=importname, module=module))
-
 
 class build_ext(setuptools.command.build_ext.build_ext):
     def run(self):
@@ -510,11 +507,9 @@ class build_ext(setuptools.command.build_ext.build_ext):
             with open('compile_commands.json', 'w') as f:
                 f.write(new_contents)
 
-
 class install(setuptools.command.install.install):
     def run(self):
         setuptools.command.install.install.run(self)
-
 
 class clean(distutils.command.clean.clean):
     def run(self):
@@ -651,7 +646,6 @@ def configure_extension_build():
             extra_compile_args += ['-g']
             extra_link_args += ['-g']
 
-
     def make_relative_rpath(path):
         if IS_DARWIN:
             return '-Wl,-rpath,@loader_path/' + path
@@ -728,7 +722,6 @@ build_update_message = """
     To force cmake to re-generate native build files (off by default):
       $ python setup.py develop --cmake
 """
-
 
 def print_box(msg):
     lines = msg.split('\n')
