@@ -1,3 +1,8 @@
+pytorch (1.4.0) xenial; urgency=medium
+
+  * v1.4.0 Release
+
+ -- Parichay Kapoor <pk.kapoor@samsung.com>  Sat, 22 Feb 2020 02:29:00 +0900
 pytorch (1.1.0) xenial; urgency=medium
 
   * Initial debian dist files added

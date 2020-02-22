@@ -1,13 +1,30 @@
 #!/usr/bin/make -f
+
+# set variables for debian build
 export PYBUILD_NAME=pytorch
-export PYBUILD_DISABLE_python2=1 # No more Python2 Packages
-export USE_FBGEMM=0
-export BUILD_TEST=0
-export BUILD_BINARY=1
-export NO_CUDA=1
+export PYBUILD_DISABLE_python2=1
 export PYBUILD_DISABLE=test
 export DEB_BUILD_OPTIONS+=nocheck
 export DEB_BUILD_OPTIONS+=noddebs
+# set variables for pytorch build
+export USE_CUDA=0
+export USE_CUDNN=0
+export USE_NCCL=0
+export BUILD_DOCS=0
+export BUILD_TEST=0
+# Enable necessary items
+export BUILD_CAFFE2_OPS=1
+export BUILD_BINARY=1
+# Enable optional items (tested)
+#export USE_FBGEMM=1
+#export USE_MKLDNN=1
+#export USE_MKLDNN_CBLAS=1
+#export USE_NNPACK=1
+#export USE_QNNPACK=1
+#export USE_DISTRIBUTED=1
+#export USE_OPENMP=1
+#export USE_TBB=1
+#export USE_ZSTD=1
 
 name = ${PYBUILD_NAME}
 topdir = $(shell pwd)
@@ -17,34 +34,36 @@ _includedir ?= /usr/include
 _sharedir ?= /usr/share
 packagingdir = ${topdir}/packaging
 
-THP01=pybind11.tar.gz
-THP02=cub.tar.gz
-THP03=eigen.tar.gz
-THP04=googletest.tar.gz
-THP05=benchmark.tar.gz
-THP06=protobuf.tar.gz
-THP07=ios-cmake.tar.gz
-THP08=NNPACK.tar.gz
-THP09=gloo.tar.gz
-THP10=pthreadpool.tar.gz
-THP11=FXdiv.tar.gz
-THP12=FP16.tar.gz
-THP13=psimd.tar.gz
-THP14=zstd.tar.gz
-THP15=cpuinfo.tar.gz
-THP16=python-enum.tar.gz
-THP17=python-peachpy.tar.gz
-THP18=python-six.tar.gz
-THP19=onnx.tar.gz
-THP20=onnx-tensorrt.tar.gz
-THP21=sleef.tar.gz
-THP22=ideep.tar.gz
-THP23=nccl.tar.gz
-THP24=gemmlowp.tar.gz
-THP25=QNNPACK.tar.gz
-THP26=neon2sse.tar.gz
-THP27=fbgemm.tar.gz
-THP28=foxi.tar.gz
+THP01=benchmark.tar.gz
+THP02=cpuinfo.tar.gz
+THP03=cub.tar.gz
+THP04=eigen.tar.gz
+THP05=fbgemm.tar.gz
+THP06=foxi.tar.gz
+THP07=FP16.tar.gz
+THP08=FXdiv.tar.gz
+THP09=gemmlowp.tar.gz
+THP10=gloo.tar.gz
+THP11=googletest.tar.gz
+THP12=ideep.tar.gz
+THP13=ios-cmake.tar.gz
+THP14=miniz-2.0.8.tar.gz
+THP15=nccl.tar.gz
+THP16=neon2sse.tar.gz
+THP17=NNPACK.tar.gz
+THP18=onnx.tar.gz
+THP19=onnx-tensorrt.tar.gz
+THP20=protobuf.tar.gz
+THP21=psimd.tar.gz
+THP22=pthreadpool.tar.gz
+THP23=pybind11.tar.gz
+THP24=python-enum.tar.gz
+THP25=python-peachpy.tar.gz
+THP26=python-six.tar.gz
+THP27=QNNPACK.tar.gz
+THP28=sleef.tar.gz
+THP29=tbb.tar.gz
+THP30=zstd.tar.gz
 
 %:
 	dh $@ --with python3 --buildsystem=pybuild
@@ -93,5 +112,7 @@ override_dh_auto_configure:
 	tar -xf ${packagingdir}/${THP26} -C ${topdir}/third_party/
 	tar -xf ${packagingdir}/${THP27} -C ${topdir}/third_party/
 	tar -xf ${packagingdir}/${THP28} -C ${topdir}/third_party/
+	tar -xf ${packagingdir}/${THP29} -C ${topdir}/third_party/
+	tar -xf ${packagingdir}/${THP30} -C ${topdir}/third_party/
 	dh_testdir
 	dh_auto_configure
