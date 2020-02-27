@@ -6,25 +6,36 @@ export PYBUILD_DISABLE_python2=1
 export PYBUILD_DISABLE=test
 export DEB_BUILD_OPTIONS+=nocheck
 export DEB_BUILD_OPTIONS+=noddebs
-# set variables for pytorch build
-export USE_CUDA=0
-export USE_CUDNN=0
-export USE_NCCL=0
+
+# Disable optimization items
 export BUILD_DOCS=0
 export BUILD_TEST=0
+export BUILD_PYTHON=OFF	# This needs to be verified
+export USE_CUDA=0
+export USE_CUDNN=0
+export USE_DISTRIBUTED=0
+export USE_FBGEMM=0
+export USE_MPI=OFF
+export USE_METAL=OFF
+export USE_NCCL=0
+export USE_NNPACK=0
+export USE_NUMA=OFF
+
 # Enable necessary items
-export BUILD_CAFFE2_OPS=1
 export BUILD_BINARY=1
-# Enable optional items (tested)
-#export USE_FBGEMM=1
-#export USE_MKLDNN=1
-#export USE_MKLDNN_CBLAS=1
-#export USE_NNPACK=1
-#export USE_QNNPACK=1
-#export USE_DISTRIBUTED=1
-#export USE_OPENMP=1
-#export USE_TBB=1
-#export USE_ZSTD=1
+export BUILD_CAFFE2_OPS=1
+
+Enable optimization items based on architecture
+ifeq ($(shell uname -m),x86_64)
+  export USE_FBGEMM=1
+  export USE_MKLDNN=1
+  export USE_MKLDNN_CBLAS=1
+  export USE_NNPACK=1
+  export USE_QNNPACK=1
+  export USE_DISTRIBUTED=1
+  export USE_TBB=1
+  export USE_ZSTD=1
+endif
 
 name = ${PYBUILD_NAME}
 topdir = $(shell pwd)
